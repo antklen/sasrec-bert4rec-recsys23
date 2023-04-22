@@ -20,7 +20,7 @@ from datasets import (CausalLMDataset, CausalLMPredictionDataset,
                       MaskedLMDataset, MaskedLMPredictionDataset,
                       PaddingCollateFn)
 from metrics import compute_metrics, compute_sampled_metrics
-from models import RNN, BERT4Rec, GPT4Rec, SASRec
+from models import RNN, BERT4Rec, SASRec
 from modules import SeqRec, SeqRecWithSampling
 from postprocess import preds2recs
 from preprocess import add_time_idx
