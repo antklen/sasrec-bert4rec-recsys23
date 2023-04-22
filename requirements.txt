@@ -1,0 +1,10 @@
+clearml==1.9.3
+hydra-core==1.3.2
+numpy==1.23.5
+omegaconf==2.3.0
+pandas==1.5.3
+pytorch_lightning==1.6.5
+recommenders==1.1.1
+torch==1.13.1
+tqdm==4.64.1
+transformers==4.26.0
