@@ -30,11 +30,11 @@ def compute_sampled_metrics(seqrec_module, predict_dataset, test, item_counts,
                             popularity_sampling=True, num_negatives=100, k=10,
                             device='cuda'):
 
-    test = test.set_index('user_id')['item_id'].to_dict()    
+    test = test.set_index('user_id')['item_id'].to_dict()
     all_items = item_counts.index.values
     item_weights = item_counts.values
     # probabilities = item_weights/item_weights.sum()
-    
+
     seqrec_module = seqrec_module.eval().to(device)
 
     ndcg, hit_rate, mrr = 0.0, 0.0, 0.0

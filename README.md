@@ -1,5 +1,7 @@
 # Turning Dross Into Gold Loss: Is BERT4Rec really better than SASRec?
 
+Repository with code for paper "Turning Dross Into Gold Loss: Is BERT4Rec really better than SASRec?"
+
 Scripts to reproduce main results:
 
 ```sh
@@ -72,3 +74,6 @@ python run.py --config-name=BERT4Rec data_path=../data/yelp.txt
 ```
 
 BPR-MF code is in a separate notebook `notebooks/BPR-MF.ipynb`.
+
+
+Preprocessing for Yelp dataset is in notebook `notebooks/Yelp_data.ipynb`

@@ -86,7 +86,6 @@ def create_dataloaders(train, validation, config):
     validation_size = config.dataloader.validation_size
     validation_users = validation.user_id.unique()
     if validation_size and (validation_size < len (validation_users)):
-        validation_users = validation.user_id.unique()
         validation_users = np.random.choice(validation_users, size=validation_size, replace=False)
         validation = validation[validation.user_id.isin(validation_users)]
 

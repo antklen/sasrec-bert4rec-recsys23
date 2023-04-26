@@ -23,5 +23,5 @@ def extract_validation_history(path):
         df_scalar = pd.DataFrame(
             [(event.step, event.value) for event in events], columns=['step', scalar])
         history = pd.merge(history, df_scalar, on='step', how='outer')
-        
+
     return history

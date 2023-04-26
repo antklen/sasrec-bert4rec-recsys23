@@ -51,7 +51,7 @@ class CausalLMDataset(LMDataset):
 
         super().__init__(df, max_length, num_negatives, full_negative_sampling,
                          user_col, item_col, time_col)
-        
+
         self.label_masking_probability = label_masking_probability
 
     def __getitem__(self, idx):
@@ -63,7 +63,7 @@ class CausalLMDataset(LMDataset):
 
         input_ids = np.array(item_sequence[:-1])
         labels = np.array(item_sequence[1:])
-        
+
         # for testing how masking labels influence performance
         if self.label_masking_probability > 0:
             mask = np.random.rand(len(labels)) < self.label_masking_probability
@@ -84,7 +84,7 @@ class CausalLMPredictionDataset(LMDataset):
 
         super().__init__(df, max_length=max_length, num_negatives=None,
                          user_col=user_col, item_col=item_col, time_col=time_col)
-        
+
         self.validation_mode = validation_mode
 
     def __getitem__(self, idx):
@@ -101,7 +101,7 @@ class CausalLMPredictionDataset(LMDataset):
                     'full_history': item_sequence, 'target': target}
         else:
             input_ids = item_sequence[-self.max_length:]
-        
+
             return {'input_ids': input_ids, 'user_id': user_id,
                     'full_history': item_sequence}
 
@@ -207,7 +207,7 @@ class PaddingCollateFn:
             values = [torch.tensor(example[key]) for example in batch]
             collated_batch[key] = pad_sequence(values, batch_first=True,
                                                padding_value=padding_value)
-            
+
         if 'input_ids' in collated_batch:
             attention_mask = collated_batch['input_ids'] != self.padding_value
             collated_batch['attention_mask'] = attention_mask.to(dtype=torch.float32)  

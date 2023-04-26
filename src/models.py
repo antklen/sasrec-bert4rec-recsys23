@@ -88,9 +88,9 @@ class SASRec(nn.Module):
             new_attn_layernorm = nn.LayerNorm(hidden_units, eps=1e-8)
             self.attention_layernorms.append(new_attn_layernorm)
 
-            new_attn_layer =  nn.MultiheadAttention(hidden_units,
-                                                          num_heads,
-                                                          dropout_rate)
+            new_attn_layer = nn.MultiheadAttention(hidden_units,
+                                                   num_heads,
+                                                   dropout_rate)
             self.attention_layers.append(new_attn_layer)
 
             new_fwd_layernorm = nn.LayerNorm(hidden_units, eps=1e-8)

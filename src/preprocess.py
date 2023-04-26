@@ -2,8 +2,6 @@
 Filter interactions.
 """
 
-import pandas as pd
-
 
 def add_time_idx(df, user_col='user_id', timestamp_col='timestamp', sort=True):
     """Add time index to interactions dataframe."""
@@ -19,7 +17,7 @@ def add_time_idx(df, user_col='user_id', timestamp_col='timestamp', sort=True):
 
 def filter_items(df, item_min_count, item_col='item_id'):
 
-    print('Fitering items..')
+    print('Filtering items..')
 
     item_count = df.groupby(item_col).user_id.nunique()
 
@@ -36,7 +34,7 @@ def filter_items(df, item_min_count, item_col='item_id'):
 
 def filter_users(df, user_min_count, user_col='user_id'):
 
-    print('Fitering users..')
+    print('Filtering users..')
 
     user_count = df.groupby(user_col).item_id.nunique()
 

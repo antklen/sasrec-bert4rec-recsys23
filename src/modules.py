@@ -99,7 +99,7 @@ class SeqRecBase(pl.LightningModule):
         hit_rate = hit_rate / len(targets)
         ndcg = ndcg / len(targets)
         mrr = mrr / len(targets)
-        
+
         return {'ndcg': ndcg, 'hit_rate': hit_rate, 'mrr': mrr}
 
 
@@ -133,21 +133,21 @@ class SeqRecWithSampling(SeqRec):
 
         self.loss = loss
 
-        if hasattr(self.model, 'item_emb'):
+        if hasattr(self.model, 'item_emb'):  # for SASRec
             self.embed_layer = self.model.item_emb
-        elif hasattr(self.model, 'embed_layer'):
+        elif hasattr(self.model, 'embed_layer'):  # for other models
             self.embed_layer = self.model.embed_layer
 
 
     def compute_loss(self, outputs, batch):
 
         # embed  and compute logits for negatives
-        if batch['negatives'].ndim == 2:
+        if batch['negatives'].ndim == 2:  # for full_negative_sampling=False
             # [N, M, D]
             embeds_negatives = self.embed_layer(batch['negatives'].to(torch.int32))
             # [N, T, D] * [N, D, M] -> [N, T, M]
             logits_negatives = torch.matmul(outputs, embeds_negatives.transpose(1, 2))
-        elif batch['negatives'].ndim == 3:
+        elif batch['negatives'].ndim == 3:  # for full_negative_sampling=True
             # [N, T, M, D]
             embeds_negatives = self.embed_layer(batch['negatives'].to(torch.int32))
             # [N, T, 1, D] * [N, T, D, M] -> [N, T, 1, M] -> -> [N, T, M]
