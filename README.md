@@ -11,20 +11,19 @@ Recently sequential recommendations and next-item prediction task has become inc
 ## Main paper results
 
 Original SASRec used binary cross-entropy loss for one positive and one negative example:
-$$
-    \mathcal{L}_{BCE} = -\sum_{u \in U} \sum_{t=1}^{n_u} \log(\sigma (r_{t,i_t}^{(u)})) + \log(1-\sigma(r_{t,-}^{(u)})),
-$$
+```math
+\mathcal{L}_{BCE} = -\sum_{u \in U} \sum_{t=1}^{n_u} \log(\sigma (r_{t,i_t}^{(u)})) + \log(1-\sigma(r_{t,-}^{(u)})).
+```
 We suggest to use instead cross-entropy loss, which is used by BERT4Rec:
-$$
-    \mathcal{L}_{CE} = -\sum_{u \in U} \sum_{t \in T_u} \log \frac{\exp(r_{t,i_t}^{(u)})}{\sum_{i \in I} \exp(r_{t,i}^{(u)})}
-$$
+```math
+    \mathcal{L}_{CE} = -\sum_{u \in U} \sum_{t \in T_u} \log \frac{\exp(r_{t,i_t}^{(u)})}{\sum_{i \in I} \exp(r_{t,i}^{(u)})}.
+```
 When the number of items is large, it is computationally expensive to calculate softmax and cross-entropy loss over full set of items. To avoid this problem it is possible to use negative sampling. For each user sequence in a batch, we sample $N$ items
 a user hasn’t interacted with and use the same set of negatives for
 each time step of a given sequence:
-$$
+```math
     \mathcal{L}_{CE-sampled} = -\sum_{u \in U} \sum_{t=1}^{n_u} \log \frac{\exp(r_{t,i_t}^{(u)})}{\exp(r_{t,i_t}^{(u)}) + \sum_{i \in I^{-(u)}_N} \exp(r_{t,i}^{(u)})},
-$$
-
+```
 
 ---
 
@@ -32,7 +31,7 @@ We conduct experiments on five popular datasets, which are often used as sequent
 
 For evaluation we use leave-one-out approach. For each user, the last item of the interaction sequence is used as the test data, the item before the last one is used as the validation data, and the remaining data is used for training.
 
-Below are the tables with main results for different datasets. `SASRec+` stands for SASRec with cross-entropy loss $\mathcal{L}_{CE}$, `SASRec+ 3000` - SASRec with sampled cross-entropy loss $\mathcal{L}_{CE-sampled}$ with 3000 negative examples.
+Below are the tables with main results for different datasets. `SASRec+` stands for SASRec with cross-entropy loss $`\mathcal{L}_{CE}`$, `SASRec+ 3000` - SASRec with sampled cross-entropy loss $`\mathcal{L}_{CE-sampled}`$ with 3000 negative examples.
 
 **MovieLens-1m**
 
