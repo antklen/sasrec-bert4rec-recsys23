@@ -5,7 +5,7 @@ data_path: ../data/ml-1m.txt
 dataset:
   max_length: 50
   # num_negatives:
-  full_negative_sampling: True
+  full_negative_sampling: False
 
 dataloader:
   batch_size: 128
@@ -30,4 +30,4 @@ trainer_params:
 
 patience: 10
 sampled_metrics: False
-top_k_metrics: [10, 50, 100]
+top_k_metrics: [10, 100]

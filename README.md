@@ -2,7 +2,6 @@
 
 This repository contains code for ACM RecSys 2023 paper ["Turning Dross Into Gold Loss: Is BERT4Rec really better than SASRec?"](https://arxiv.org/abs/2309.07602) by Anton Klenitskiy and Alexey Vasilev.
 
-Note: currently (in September 2023) this code doesn't work with `python>=3.10`, because `recommenders` library which is used for evaluation needs `python<3.10`.
 
 ## Abstract
 
@@ -85,6 +84,26 @@ Markers represent NDCG10 for a corresponding number of negatives. SASRec+ (blue 
 The following plot shows that BERT4Rec needs much more training time and epochs to converge:
 <img src="images/convergence_plot.png" width="100%">
 
+## Usage
+
+Install requirements:
+```sh
+pip install -r requirements.txt
+```
+
+For configuration we use [Hydra](https://hydra.cc/). Parameters are specified in [config files](src/configs/), they can be overriden from the command line. Optionally it is possible to use [ClearML](`https://clear.ml/docs/latest/docs`) for experiments logging (`project_name` and `task_name` should be specified in config to use ClearML).
+
+Example of run via command line:
+```sh
+cd src
+python run.py --config-name=SASRec data_path=../data/ml-1m.txt 
+```
+
+There is an [Example notebook](notebooks/Example.ipynb), you can try to run it on datasets from `data/` folder or on your data.
+
+
+Note: currently (in September 2023) this code doesn't work with `python>=3.10`, because `recommenders` library which is used for evaluation needs `python<3.10`.
+
 ## Reproduce paper results
 
 Scripts to reproduce main results:
@@ -97,9 +116,9 @@ cd src/
 # SASRec+
 python run.py --config-name=SASRec data_path=../data/ml-1m.txt dataset.max_length=200
 # SASRec+ 3000
-python run.py --config-name=SASRec data_path=../data/ml-1m.txt dataset.max_length=200 +dataset.num_negatives=3000 dataset.full_negative_sampling=False
+python run.py --config-name=SASRec data_path=../data/ml-1m.txt dataset.max_length=200 +dataset.num_negatives=3000
 # SASRec vanilla
-python run.py --config-name=SASRec data_path=../data/ml-1m.txt dataset.max_length=200 +seqrec_module.loss=bce +dataset.num_negatives=1
+python run.py --config-name=SASRec data_path=../data/ml-1m.txt dataset.max_length=200 +seqrec_module.loss=bce +dataset.num_negatives=1 dataset.full_negative_sampling=True
 # GRU4Rec
 python run.py --config-name=RNN data_path=../data/ml-1m.txt dataset.max_length=200
 # BERT4Rec
@@ -110,9 +129,9 @@ python run.py --config-name=BERT4Rec data_path=../data/ml-1m.txt dataset.max_len
 # SASRec+
 python run.py --config-name=SASRec data_path=../data/ml-20m.txt dataset.max_length=200 model_params.hidden_units=256
 # SASRec+ 3000
-python run.py --config-name=SASRec data_path=../data/ml-20m.txt dataset.max_length=200 +dataset.num_negatives=3000 dataset.full_negative_sampling=False model_params.hidden_units=256
+python run.py --config-name=SASRec data_path=../data/ml-20m.txt dataset.max_length=200 +dataset.num_negatives=3000 model_params.hidden_units=256
 # SASRec vanilla
-python run.py --config-name=SASRec data_path=../data/ml-20m.txt dataset.max_length=200 +seqrec_module.loss=bce +dataset.num_negatives=1 model_params.hidden_units=256
+python run.py --config-name=SASRec data_path=../data/ml-20m.txt dataset.max_length=200 +seqrec_module.loss=bce +dataset.num_negatives=1 dataset.full_negative_sampling=True model_params.hidden_units=256
 # GRU4Rec
 python run.py --config-name=RNN data_path=../data/ml-20m.txt dataset.max_length=200 model_params.input_size=256 model_params.hidden_size=256
 # BERT4Rec
@@ -123,9 +142,9 @@ python run.py --config-name=BERT4Rec data_path=../data/ml-20m.txt dataset.max_le
 # SASRec+
 python run.py --config-name=SASRec data_path=../data/beauty.txt
 # SASRec+ 3000
-python run.py --config-name=SASRec data_path=../data/beauty.txt +dataset.num_negatives=3000 dataset.full_negative_sampling=False
+python run.py --config-name=SASRec data_path=../data/beauty.txt +dataset.num_negatives=3000
 # SASRec vanilla
-python run.py --config-name=SASRec data_path=../data/beauty.txt +seqrec_module.loss=bce +dataset.num_negatives=1
+python run.py --config-name=SASRec data_path=../data/beauty.txt +seqrec_module.loss=bce +dataset.num_negatives=1 dataset.full_negative_sampling=True
 # GRU4Rec
 python run.py --config-name=RNN data_path=../data/beauty.txt
 # BERT4Rec
@@ -136,9 +155,9 @@ python run.py --config-name=BERT4Rec data_path=../data/beauty.txt
 # SASRec+
 python run.py --config-name=SASRec data_path=../data/steam.txt
 # SASRec+ 3000
-python run.py --config-name=SASRec data_path=../data/steam.txt +dataset.num_negatives=3000 dataset.full_negative_sampling=False
+python run.py --config-name=SASRec data_path=../data/steam.txt +dataset.num_negatives=3000
 # SASRec vanilla
-python run.py --config-name=SASRec data_path=../data/steam.txt +seqrec_module.loss=bce +dataset.num_negatives=1
+python run.py --config-name=SASRec data_path=../data/steam.txt +seqrec_module.loss=bce +dataset.num_negatives=1 dataset.full_negative_sampling=True
 # GRU4Rec
 python run.py --config-name=RNN data_path=../data/steam.txt
 # BERT4Rec
@@ -149,9 +168,9 @@ python run.py --config-name=BERT4Rec data_path=../data/steam.txt
 # SASRec+
 python run.py --config-name=SASRec data_path=../data/yelp.txt
 # SASRec+ 3000
-python run.py --config-name=SASRec data_path=../data/yelp.txt +dataset.num_negatives=3000 dataset.full_negative_sampling=False
+python run.py --config-name=SASRec data_path=../data/yelp.txt +dataset.num_negatives=3000
 # SASRec vanilla
-python run.py --config-name=SASRec data_path=../data/yelp.txt +seqrec_module.loss=bce +dataset.num_negatives=1
+python run.py --config-name=SASRec data_path=../data/yelp.txt +seqrec_module.loss=bce +dataset.num_negatives=1 dataset.full_negative_sampling=True
 # GRU4Rec
 python run.py --config-name=RNN data_path=../data/yelp.txt
 # BERT4Rec

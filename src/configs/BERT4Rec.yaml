@@ -32,4 +32,4 @@ trainer_params:
 
 patience: 20
 sampled_metrics: False
-top_k_metrics: [10, 50, 100]
+top_k_metrics: [10, 100]
