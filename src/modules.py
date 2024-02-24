@@ -163,7 +163,7 @@ class SeqRecWithSampling(SeqRec):
         # [N, T, D]
         embeds_labels = self.embed_layer(labels)
         # [N, T, 1, D] * [N, T, D, 1] -> [N, T, 1, 1] -> [N, T]
-        logits_labels = torch.matmul(outputs.unsqueeze(2), embeds_labels.unsqueeze(3)).squeeze()
+        logits_labels = torch.matmul(outputs.unsqueeze(2), embeds_labels.unsqueeze(3)).squeeze(-1).squeeze(-1)
 
         # concat positives and negatives
         # [N, T, M + 1]
